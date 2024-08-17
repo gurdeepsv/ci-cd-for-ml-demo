@@ -2,33 +2,24 @@
 
 name: PR-comment
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow pull request events but only for the "main" branch
+  # Write the event triggering the workflow
   pull_request:
-    branches: [ "main" ]
+    branches: master
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build-pr-comment:
-    # The type of runner that the job will run on
+  print_secrets:
     runs-on: ubuntu-latest
-
+    
     permissions: 
-      pull-requests: write 
+      # Grant the write permissions
+      pull-requests: write
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      # Setup comment pull request action to comment on PR
-      - name: Comment PR
-        env:
-          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Comment on Pull Request
         uses: thollander/actions-comment-pull-request@v2
         with:
+          # Access the GITHUB_TOKEN token from secrets
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           message: |
-            Hello world testing Pull request auto message ! :wave:
+            Hello world ! :wave:
